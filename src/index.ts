@@ -4,9 +4,9 @@ export type Selectors<Root, T, Prefix extends string = ""> = {
   [K in keyof T as `select${Capitalize<Prefix>}${Capitalize<string & K>}`]: (state: Root) => T[K];
 };
 
-const capitalize = (str: string) => {
-  if (str.length === 0) {
-    return str;
+const capitalize = (str?: string) => {
+  if (!str) {
+    return "";
   }
   return `${str.substr(0, 1).toUpperCase()}${str.substr(1)}`
 }

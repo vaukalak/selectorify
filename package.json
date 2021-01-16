@@ -1,6 +1,6 @@
 {
   "name": "selectorify",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "simple selectors generator",
   "author": "vaukalak",
   "main": "lib/index.js",
@@ -14,7 +14,8 @@
     "lint:fix": "yarn lint --fix",
     "tsc": "tsc -p tsconfig.json",
     "compile": "babel --extensions '.ts' src/ --out-dir lib",
-    "build": "yarn tsc && yarn compile"
+    "build": "yarn tsc && yarn compile",
+    "prepublish": "rm -r lib && yarn build"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
