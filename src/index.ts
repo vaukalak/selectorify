@@ -1,22 +1,31 @@
 import { createSelector } from "reselect";
 
-export type Selectors<Root, T> = {
-  [K in keyof T as `select${Capitalize<string & K>}`]: (state: Root) => T[K];
+export type Selectors<Root, T, Prefix extends string = ""> = {
+  [K in keyof T as `select${Capitalize<Prefix>}${Capitalize<string & K>}`]: (state: Root) => T[K];
 };
+
+const capitalize = (str: string) => {
+  if (str.length === 0) {
+    return str;
+  }
+  return `${str.substr(0, 1).toUpperCase()}${str.substr(1)}`
+}
 
 export const selectorify = <
   Root,
   K extends keyof Type,
-  Type extends { [key in K]: Type[K] }
+  Type extends { [key in K]: Type[K] },
+  Prefix extends string = "",
 >(
   rootSelector: (root: Root) => Type,
-  shape: Type
-): Selectors<Root, Type> => {
+  shape: Type,
+  prefix?: Prefix,
+): Selectors<Root, Type, Prefix> => {
   return Object.keys(shape).reduce(
-    (result: Partial<Selectors<Root, Type>>, key) => {
-      result[key] = createSelector(rootSelector, (state: Type) => state[key]);
+    (result: Partial<Selectors<Root, Type, Prefix>>, key) => {
+      result[`select${capitalize(prefix)}${capitalize(key)}`] = createSelector(rootSelector, (state: Type) => state[key]);
       return result;
     },
     {}
-  ) as Selectors<Root, Type>;
+  ) as Selectors<Root, Type, Prefix>;
 };
