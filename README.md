@@ -1,0 +1,2 @@
+# selectorify
+simple selectors generator
