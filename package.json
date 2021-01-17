@@ -1,6 +1,6 @@
 {
   "name": "selectorify",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "simple selectors generator",
   "author": "vaukalak",
   "main": "lib/index.js",

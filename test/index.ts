@@ -1,4 +1,4 @@
-import { selectorify } from "../src";
+import { selectorify, SelectorsMap, mapSelectors } from "../src";
 
 type User = {
   firstName: string;
@@ -20,12 +20,12 @@ const testRootState = {
   activeUser: defaultState,
 };
 
-const activeUserSelectors = selectorify(
+const { selectFirstName, selectLastName } = selectorify(
   ({ activeUser }: RootState) => activeUser,
   defaultState,
 );
 
-const firstName: string = activeUserSelectors.selectFirstName(testRootState);
+const firstName: string = selectFirstName(testRootState);
 
 const selectors = selectorify(
   ({ activeUser }: RootState) => activeUser,
@@ -34,3 +34,11 @@ const selectors = selectorify(
 );
 
 const lastName: string = selectors.selectActiveUserLastName(testRootState);
+
+const structured = mapSelectors<RootState>()({
+  selectFirstName,
+  selectLastName,
+});
+
+structured(testRootState).firstName;
+const a: string = structured(testRootState).lastName;
